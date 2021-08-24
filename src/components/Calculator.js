@@ -32,6 +32,19 @@ function Calculator() {
     setNextValue(nextValue === "0" ? String(number) : nextValue + number);
   };
 
+  const insertDot = () => {
+    if(!/\./.test(nextValue)) {
+      setNextValue(nextValue + ".")
+    }
+  };
+
+  const percentage = () => {
+    setNextValue(parseFloat(nextValue) / 100);
+    if(prevValue && nextValue === "") {
+      setPrevValue(parseFloat(prevValue)/100);
+    }
+  };
+
   const handleOperation = (value) => {
     if (Number.isInteger(value)) {
       handleNum(parseInt(value, 10));
