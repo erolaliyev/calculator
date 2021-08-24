@@ -45,6 +45,15 @@ function Calculator() {
     }
   };
 
+  const changeSign = () => {
+    setNextValue(parseFloat(nextValue) * -1);
+  };
+
+  const clearData = () => {
+    setNextValue("0");
+    setPrevValue(0);
+  };
+
   const handleOperation = (value) => {
     if (Number.isInteger(value)) {
       handleNum(parseInt(value, 10));
