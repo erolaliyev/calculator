@@ -10,6 +10,14 @@ function Calculator() {
 
   useEffect(() => {}, [op, nextValue, prevValue]);
 
+  const CalculatorOperations = {
+    "/": (firstValue, secondValue) => firstValue /secondValue,
+    "*": (firstValue, secondValue) => firstValue * secondValue,
+    "+": (firstValue, secondValue) => firstValue + secondValue,
+    "-": (firstValue, secondValue) => firstValue - secondValue,
+    "=": (firstValue, secondValue) => secondValue,
+  };
+
   const handleOperation = (value) => {
     if (Number.isInteger(value)) {
       handleNum(parseInt(value, 10));
