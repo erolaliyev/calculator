@@ -1,20 +1,46 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import CalculatorKey from "./CalculatorKey";
 import "./Calculator.css";
-
 
 function Calculator() {
   const [prevValue, setPrevValue] = useState(null);
   const [nextValue, setNextValue] = useState("0");
-  const [op, setOp] = useState(null);
+  const [operation, setOperation] = useState(null);
   const [result, setResult] = useState("0");
 
   useEffect(() => {}, [op, nextValue, prevValue]);
 
-  return (<div className="calculator">
-  <div className="calculator-input">
-    <div className="result">{result}</div>
-    </div>
+  const handleOperation = (value) => {
+    if (Number.isInteger(value)) {
+      handleNum(parseInt(value, 10));
+    } else if (value in CalculatorOperations) {
+      if (operation === null) {
+        setOperation(value);
+        setPrevValue(nextValue);
+        setNextValue("");
+      }
+      if (operation) {
+        setOperation(value);
+      }
+      if (prevValue && operation && nextValue) {
+        performOperation();
+      }
+    } else if (value === "c") {
+      clearData();
+    } else if(value === "\xB1") {
+      changeSign();
+    } else if (value === ".") {
+      insertDot();
+    } else if(value === "%") {
+      percentage();
+    }
+  };
+
+  return (
+    <div className="calculator">
+      <div className="calculator-input">
+        <div className="result">{result}</div>
+      </div>
       <div className="calculator-keypad">
         <div className="keys-function">
           <CalculatorKey keyValue={"c"} onClick={handleOperation} />
@@ -38,10 +64,10 @@ function Calculator() {
           <CalculatorKey keyValue={"3"} onClick={handleOperation} />
           <CalculatorKey keyValue={"2"} onClick={handleOperation} />
           <CalculatorKey keyValue={"1"} onClick={handleOperation} />
-          <CalculatorKey 
+          <CalculatorKey
             className="key-dot"
             keyValue={"."}
-            onClick={handleOperation} 
+            onClick={handleOperation}
           />
           <CalculatorKey
             className="key-zero"
@@ -50,7 +76,8 @@ function Calculator() {
           />
         </div>
       </div>
-  </div>);
+    </div>
+  );
 }
 
 export default Calculator;
