@@ -18,6 +18,20 @@ function Calculator() {
     "=": (firstValue, secondValue) => secondValue,
   };
 
+  const performOperation = () => {
+    let temp = CalculatorOperation[operation](
+      parseFloat(prevValue),
+      parseFloat(nextValue)
+    );
+    setOperation(null);
+    setNextValue(String(temp));
+    setPrevValue(null);
+  };
+
+  const handleNum = (number) => {
+    setNextValue(nextValue === "0" ? String(number) : nextValue + number);
+  };
+
   const handleOperation = (value) => {
     if (Number.isInteger(value)) {
       handleNum(parseInt(value, 10));
