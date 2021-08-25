@@ -64,7 +64,7 @@ function Calculator() {
       if (prevValue && operation && nextValue) {
         performOperation(prevValue, operation, nextValue);
       }
-    } else if (value === "c") {
+    } else if (value === "AC") {
       clearData();
     } else if (value === "\xB1") {
       changeSign();
@@ -81,7 +81,7 @@ function Calculator() {
       </div>
       <div className="calculator-keypad">
         <div className="keys-function">
-          <CalculatorKey keyValue={"c"} onClick={handleOperation} />
+          <CalculatorKey keyValue={"AC"} onClick={handleOperation} />
           <CalculatorKey keyValue={"\xB1"} onClick={handleOperation} />
         </div>
         <div className="keys-operators">
