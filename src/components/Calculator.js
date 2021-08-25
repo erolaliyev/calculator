@@ -18,7 +18,7 @@ function Calculator() {
     "=": (firstValue, secondValue) => secondValue,
   };
 
-  const performOperation = (prevValue, nextValue, operation) => {
+  const performOperation = (prevValue, operation, nextValue) => {
     let temp = CalculatorOperations[operation](
       parseFloat(prevValue),
       parseFloat(nextValue)
@@ -39,27 +39,19 @@ function Calculator() {
     }
   };
 
-  const percentage = () => {
-    setNextValue(parseFloat(nextValue) / 100);
-    if (prevValue && nextValue === "") {
-      setPrevValue(parseFloat(prevValue) / 100);
-    }
-  };
-
   const changeSign = () => {
     setNextValue(parseFloat(nextValue) * -1);
   };
 
   const clearData = () => {
-    setNextValue("0");
     setPrevValue(0);
+    setNextValue("0");
+    setResult("0");
   };
 
   const handleOperation = (value) => {
     if (Number.isInteger(+value)) {
       handleNum(parseInt(value, 10));
-      // setResult(value);
-      // alert(value);
     } else if (value in CalculatorOperations) {
       if (operation === null) {
         setOperation(value);
@@ -70,16 +62,15 @@ function Calculator() {
         setOperation(value);
       }
       if (prevValue && operation && nextValue) {
-        performOperation(prevValue, nextValue, operation);
+        performOperation(prevValue, operation, nextValue);
       }
     } else if (value === "c") {
       clearData();
     } else if (value === "\xB1") {
       changeSign();
+      alert(value);
     } else if (value === ".") {
       insertDot();
-    } else if (value === "%") {
-      percentage();
     }
   };
 
@@ -92,7 +83,6 @@ function Calculator() {
         <div className="keys-function">
           <CalculatorKey keyValue={"c"} onClick={handleOperation} />
           <CalculatorKey keyValue={"\xB1"} onClick={handleOperation} />
-          <CalculatorKey keyValue={"%"} onClick={handleOperation} />
         </div>
         <div className="keys-operators">
           <CalculatorKey keyValue={"+"} onClick={handleOperation} />
