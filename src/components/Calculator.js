@@ -8,24 +8,25 @@ function Calculator() {
   const [operation, setOperation] = useState(null);
   const [result, setResult] = useState("0");
 
-  useEffect(() => {}, [op, nextValue, prevValue]);
+  useEffect(() => {}, [operation, nextValue, prevValue]);
 
   const CalculatorOperations = {
-    "/": (firstValue, secondValue) => firstValue /secondValue,
+    "/": (firstValue, secondValue) => firstValue / secondValue,
     "*": (firstValue, secondValue) => firstValue * secondValue,
     "+": (firstValue, secondValue) => firstValue + secondValue,
     "-": (firstValue, secondValue) => firstValue - secondValue,
     "=": (firstValue, secondValue) => secondValue,
   };
 
-  const performOperation = () => {
-    let temp = CalculatorOperation[operation](
+  const performOperation = (prevValue, nextValue, operation) => {
+    let temp = CalculatorOperations[operation](
       parseFloat(prevValue),
       parseFloat(nextValue)
     );
     setOperation(null);
     setNextValue(String(temp));
     setPrevValue(null);
+    setResult(String(temp));
   };
 
   const handleNum = (number) => {
@@ -33,15 +34,15 @@ function Calculator() {
   };
 
   const insertDot = () => {
-    if(!/\./.test(nextValue)) {
-      setNextValue(nextValue + ".")
+    if (!/\./.test(nextValue)) {
+      setNextValue(nextValue + ".");
     }
   };
 
   const percentage = () => {
     setNextValue(parseFloat(nextValue) / 100);
-    if(prevValue && nextValue === "") {
-      setPrevValue(parseFloat(prevValue)/100);
+    if (prevValue && nextValue === "") {
+      setPrevValue(parseFloat(prevValue) / 100);
     }
   };
 
@@ -55,8 +56,10 @@ function Calculator() {
   };
 
   const handleOperation = (value) => {
-    if (Number.isInteger(value)) {
+    if (Number.isInteger(+value)) {
       handleNum(parseInt(value, 10));
+      // setResult(value);
+      // alert(value);
     } else if (value in CalculatorOperations) {
       if (operation === null) {
         setOperation(value);
@@ -67,15 +70,15 @@ function Calculator() {
         setOperation(value);
       }
       if (prevValue && operation && nextValue) {
-        performOperation();
+        performOperation(prevValue, nextValue, operation);
       }
     } else if (value === "c") {
       clearData();
-    } else if(value === "\xB1") {
+    } else if (value === "\xB1") {
       changeSign();
     } else if (value === ".") {
       insertDot();
-    } else if(value === "%") {
+    } else if (value === "%") {
       percentage();
     }
   };

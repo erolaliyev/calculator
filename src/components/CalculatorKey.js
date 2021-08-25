@@ -3,7 +3,8 @@ import "./CalculatorKey.css";
 
 function CalculatorKey(props) {
   return (
-    <button className={`${props.className}`}
+    <button 
+      className={`${props.className}`}
       onClick={() => props.onClick(props.keyValue)}
     >
       {props.keyValue}{" "}
